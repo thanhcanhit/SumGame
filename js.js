@@ -5,6 +5,7 @@ var items = document.getElementsByClassName('js-request-item');
 var correctSound = new Audio('./correct.mp3');
 var wrongSound = new Audio('./wrong.mp3');
 
+
 function load() {
     setTimeout(() => {
         for (let item of items) {
@@ -52,6 +53,7 @@ for (let i = 0; i < items.length; i++) {
             setTimeout(() => {
                 alert(`Bạn đạt được ${scoreValue} điểm`);
                 score.innerHTML = 0;
+                scoreValue = 0;
             }, 500
             )
         }
