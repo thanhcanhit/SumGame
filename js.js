@@ -1,66 +1,61 @@
+var scoreValue = 0, result;
 var score = document.getElementById('js-score');
 var question = document.getElementById('js-question');
-var item = new Array();
-item[0] = document.getElementById('js-item-1');
-item[1] = document.getElementById('js-item-2');
-item[2] = document.getElementById('js-item-3');
-item[3] = document.getElementById('js-item-4');
-
-var scoreValue = 0;
-var result;
+var items = document.getElementsByClassName('js-request-item');
+var correctSound = new Audio('./correct.mp3');
+var wrongSound = new Audio('./wrong.mp3');
 
 function load() {
-    score.innerHTML = scoreValue;
+    setTimeout(() => {
+        for (let item of items) {
+            item.classList.add('hide');
+        }
+        question.classList.add('hide');
+        score.classList.add('hide');
 
-    var a = Math.floor(Math.random() * (99) + 1);
-    var b = Math.floor(Math.random() * (99) + 1);
+        score.innerHTML = scoreValue;
+        
+        var a = Math.floor(Math.random() * (99) + 1);
+        var b = Math.floor(Math.random() * (99) + 1);
 
-    result = a + b;
-    var head = result - result/2;
-    var tail = result + result/2;
+        result = a + b;
+        var head = result - result / 2;
+        var tail = result + result / 2;
 
-    question.innerHTML = a + " + "  + b + " = ?";
+        question.innerHTML = a + " + " + b + " = ?";
 
-    for (var i = 0; i < 4; i++) {
-        item[i].value = Math.floor(Math.random() * (head-tail) + tail);
-    }
+        for (var i = 0; i < 4; i++) {
+            items[i].value = Math.floor(Math.random() * (head - tail) + tail);
+        }
 
-    var resultPosition = Math.floor(Math.random() * 3 + 0);
-    item[resultPosition].value = result;
+        var resultPosition = Math.floor(Math.random() * 3 + 0);
+        items[resultPosition].value = result;
 
-    
+        setTimeout(() => {
+            score.classList.remove('hide');
+            question.classList.remove('hide');
+            for (let item of items) {
+                item.classList.remove('hide');
+            }
+        }, 100);
+    }, 400);
 };
 
-item[0].addEventListener('click', function () {
-    if (item[0].value == result) scoreValue += 100;
-    else {
-        alert("Game Over Điểm của bạn là " + scoreValue);
-        scoreValue = 0;
-    }
-    load();
-})
-item[1].addEventListener('click', function () {
-    if (item[1].value == result) scoreValue += 100;
-    else {
-        alert("Game Over Điểm của bạn là " + scoreValue);
-        scoreValue = 0;
-    }
-    load();
-})
-item[2].addEventListener('click', function () {
-    if (item[2].value == result) scoreValue += 100;
-    else {
-        alert("Game Over Điểm của bạn là " + scoreValue);
-        scoreValue = 0;
-    }
-    load();
-})
-item[3].addEventListener('click', function () {
-    if (item[3].value == result) scoreValue += 100;
-    else {
-        alert("Game Over Điểm của bạn là " + scoreValue);
-        scoreValue = 0;
-    }
-    load();
-})
+for (let i = 0; i < items.length; i++) {
+    items[i].addEventListener('click', (e) => {
+        if (e.target.value == result) {
+            scoreValue += 100;
+            correctSound.play();
+        }
+        else {
+            wrongSound.play();
+            setTimeout(() => {
+                alert(`Bạn đạt được ${scoreValue} điểm`);
+                score.innerHTML = 0;
+            }, 500
+            )
+        }
+        load();
+    })
 
+}
