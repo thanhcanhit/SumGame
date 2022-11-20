@@ -2,8 +2,6 @@ var scoreValue = 0, result;
 var score = document.getElementById('js-score');
 var question = document.getElementById('js-question');
 var items = document.getElementsByClassName('js-request-item');
-var correctSound = new Audio('./correct.mp3');
-var wrongSound = new Audio('./wrong.mp3');
 
 
 function load() {
@@ -46,10 +44,8 @@ for (let i = 0; i < items.length; i++) {
     items[i].addEventListener('click', (e) => {
         if (e.target.value == result) {
             scoreValue += 100;
-            correctSound.play();
         }
         else {
-            wrongSound.play();
             setTimeout(() => {
                 alert(`Bạn đạt được ${scoreValue} điểm`);
                 score.innerHTML = 0;
